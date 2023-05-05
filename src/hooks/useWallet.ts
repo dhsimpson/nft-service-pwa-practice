@@ -2,14 +2,13 @@ import { useEffect, useState } from 'react';
 import Web3 from 'web3';
 import { Contract } from 'web3-eth-contract';
 import getTestAbi from '@/abi/TestNFT.json';
+import { contractAddress, envName } from '@/consts/env';
 
-const contractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS;
 
 const NFT_ABI = () => {
-    const envName = process.env.NEXT_PUBLIC_ENV;
     console.log('process.env.CONTRACT_ADDRESS')
-    console.log(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS)
-    console.log(process.env.NEXT_PUBLIC_ENV)
+    console.log(contractAddress)
+    console.log(envName)
     if (envName === 'dev') {
         return getTestAbi;
     }

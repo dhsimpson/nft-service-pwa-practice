@@ -61,13 +61,25 @@ module.exports = (phase) => {
         })(),
         NEXT_PUBLIC_ENV: (() => {
             return getEnvSpecificValue(isDev, isStaging, isProd, 'dev', 'staging', 'prod', 'ENV');
-        })()
+        })(),
+        NEXT_PUBLIC_IPFS_HOST: (() => {
+            return getEnvSpecificValue(isDev, isStaging, isProd, '127.0.0.1', '127.0.0.1', '127.0.0.1', 'IPFS_HOST');
+        })(),
+        NEXT_PUBLIC_IPFS_PORT: (() => {
+            return getEnvSpecificValue(isDev, isStaging, isProd, '5002', '5002', '5002', 'IPFS_PORT');
+        })(),
+        NEXT_PUBLIC_IPFS_PROTOCOL: (() => {
+            return getEnvSpecificValue(isDev, isStaging, isProd, 'http', 'https', 'https', 'IPFS_PROTOCOL');
+        })(),
     }
     
     const pwaConfig = withPWA({
         env: {
             NEXT_PUBLIC_CONTRACT_ADDRESS: env.NEXT_PUBLIC_CONTRACT_ADDRESS,
-            NEXT_PUBLIC_ENV: env.NEXT_PUBLIC_ENV
+            NEXT_PUBLIC_ENV: env.NEXT_PUBLIC_ENV,
+            NEXT_PUBLIC_IPFS_HOST: env.NEXT_PUBLIC_IPFS_HOST,
+            NEXT_PUBLIC_IPFS_PORT: env.NEXT_PUBLIC_IPFS_PORT,
+            NEXT_PUBLIC_IPFS_PROTOCOL: env.NEXT_PUBLIC_IPFS_PROTOCOL,
         },
         ...nextConfig
     });

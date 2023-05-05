@@ -4,9 +4,10 @@ import formidable, { IncomingForm, Fields, Files } from 'formidable';
 import fs from 'fs';
 import type { ImportCandidate } from 'ipfs-core-types/src/utils';
 import { create } from 'ipfs-http-client'
+import { IPFS_HOST, IPFS_PORT, IPFS_PROTOCOL } from '@/consts/env';
 
 //C.F. ipfs 데스크탑은 포트가 변경되는 경우가 종종 발생함
-const ipfs = create({ host: '127.0.0.1', port: 5002, protocol: 'http' });
+const ipfs = create({ host: IPFS_HOST, port: IPFS_PORT, protocol: IPFS_PROTOCOL });
 
 async function parseFormData(req: NextApiRequest): Promise<{ fields: Fields; files: Files }> {
     return new Promise((resolve, reject) => {
