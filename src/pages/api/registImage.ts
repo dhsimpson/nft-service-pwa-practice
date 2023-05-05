@@ -5,7 +5,8 @@ import fs from 'fs';
 import type { ImportCandidate } from 'ipfs-core-types/src/utils';
 import { create } from 'ipfs-http-client'
 
-const ipfs = create({ host: '127.0.0.1', port: 5001, protocol: 'http' });
+//C.F. ipfs 데스크탑은 포트가 변경되는 경우가 종종 발생함
+const ipfs = create({ host: '127.0.0.1', port: 5002, protocol: 'http' });
 
 async function parseFormData(req: NextApiRequest): Promise<{ fields: Fields; files: Files }> {
     return new Promise((resolve, reject) => {

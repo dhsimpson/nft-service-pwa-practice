@@ -11,10 +11,11 @@ export interface ShowNFTProps {
 export default function ShowNFT({ contract, account }: ShowNFTProps) {
     const { nftList } = useGetNftUrls({ contract, account });
 
+    console.log('nftList')
+    console.log(nftList)
     if (!account || !contract || nftList.length < 1) {
         return null;
     }
-    
     return (
         <>
             <div>
