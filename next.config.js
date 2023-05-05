@@ -57,7 +57,7 @@ module.exports = (phase) => {
         //TODO : prod 는 폴리곤넷 배포
         NEXT_PUBLIC_CONTRACT_ADDRESS: (() => {
             //스마트 컨트랙트의 주소를 각 환경에 맞게 입력 한다.
-            return getEnvSpecificValue(isDev, isStaging, isProd, '0xa7c36691557704687c42540DC8675F8c91437535', '0xa7c36691557704687c42540DC8675F8c91437535', '0xa7c36691557704687c42540DC8675F8c91437535', 'CONTRACT_ADDRESS');
+            return getEnvSpecificValue(isDev, isStaging, isProd, '0x5C41aEac153dF4E677cC56F6Ae18F4d70F432f7C', '0xa7c36691557704687c42540DC8675F8c91437535', '0xa7c36691557704687c42540DC8675F8c91437535', 'CONTRACT_ADDRESS');
         })(),
         NEXT_PUBLIC_ENV: (() => {
             return getEnvSpecificValue(isDev, isStaging, isProd, 'dev', 'staging', 'prod', 'ENV');

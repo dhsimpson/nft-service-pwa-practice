@@ -7,7 +7,7 @@ import { create } from 'ipfs-http-client'
 import { IPFS_HOST, IPFS_PORT, IPFS_PROTOCOL } from '@/consts/env';
 
 //C.F. ipfs 데스크탑은 포트가 변경되는 경우가 종종 발생함
-const ipfs = create({ host: IPFS_HOST, port: IPFS_PORT, protocol: IPFS_PROTOCOL });
+const ipfs = create({ host: IPFS_HOST, port: Number.parseInt(IPFS_PORT ?? '8080'), protocol: IPFS_PROTOCOL });
 
 async function parseFormData(req: NextApiRequest): Promise<{ fields: Fields; files: Files }> {
     return new Promise((resolve, reject) => {
