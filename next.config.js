@@ -20,6 +20,7 @@ const nextConfig = {
       },
     ],
   },
+  output: 'export'
 }
 
 const envList = (phase) => {
