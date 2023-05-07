@@ -60,7 +60,7 @@ export default function Document() {
       <body>
         <Main />
             <NextScript />
-            <script
+            {/* <script
                 type="module"
                 dangerouslySetInnerHTML={{
                 __html: `
@@ -69,7 +69,7 @@ export default function Document() {
                     document.body.appendChild(el);
                 `,
                 }}
-            />
+            /> */}
       </body>
     </Html>
   )

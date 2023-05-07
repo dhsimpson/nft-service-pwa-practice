@@ -1,7 +1,8 @@
 ## PWA : nextjs-pwa-example 를 참고해 제작
-Thanks for [nextjs-pwa-example](https://github.com/vercel/next.js/tree/canary/examples/progressive-web-app)
-![pwa-lighthouse](public/images/pwa-lighthouse.png)
-
+Thanks for [vercel/nextjs-pwa-example](https://github.com/vercel/next.js/tree/canary/examples/progressive-web-app)   
+& [nextjs-pwa-example](https://github.com/shadowwalker/next-pwa)   
+![pwa-lighthouse](public/images/pwa-lighthouse.png)   
+& [nextjs-firebase-deploy](https://devpluto.tistory.com/entry/Firebase-Firebase-hosting%EC%9C%BC%EB%A1%9C-nextjs-%EB%B0%B0%ED%8F%AC-%EC%9E%90%EB%8F%99%ED%99%94%ED%95%98%EA%B8%B0)
 ## DEMO
 ![demo](public/gif/nft-party-demo.gif)
 
