@@ -2,18 +2,18 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import formidable, { IncomingForm, Fields, Files } from 'formidable';
 import fs from 'fs';
-import type { ImportCandidate } from 'ipfs-core-types/src/utils';
-import { create } from 'ipfs-http-client'
-import { IPFS_HOST, IPFS_PORT, IPFS_PROTOCOL } from '@/consts/env';
+import { IPFS_JWT } from '@/consts/env';
+import axios from 'axios';
 
 //C.F. ipfs 데스크탑은 포트가 변경되는 경우가 종종 발생함
-const ipfs = create({ host: IPFS_HOST, port: Number.parseInt(IPFS_PORT ?? '8080'), protocol: IPFS_PROTOCOL });
 
 async function parseFormData(req: NextApiRequest): Promise<{ fields: Fields; files: Files }> {
     return new Promise((resolve, reject) => {
         const form = new IncomingForm();
       
         form.parse(req, (err, fields, files) => {
+            // console.log('files')
+            // console.log(files)
             if (err) {
                 reject(err);
                 return;
@@ -21,6 +21,11 @@ async function parseFormData(req: NextApiRequest): Promise<{ fields: Fields; fil
             resolve({ fields, files });
         });
   });
+}
+// Buffer 데이터를 읽어와서 Blob으로 변환합니다.
+function bufferToBlob(buffer: any, mimeType: any) {
+  const arrayBuffer = new Uint8Array(buffer).buffer;
+  return new Blob([arrayBuffer], { type: mimeType });
 }
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -32,17 +37,51 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         const { files } = await parseFormData(req);
         const image = files.image as formidable.File;
+        // const formData = new FormData();
 
-        const readStream = fs.createReadStream(image.filepath);
+          fs.readFile(image.filepath, async(err, data) => {
+            if (err) {
+            // 파일 읽기 에러 처리
+            return;
+            }
 
-        const fileForIPFS: ImportCandidate = {
-            path: image.originalFilename ?? '',
-            content: readStream as unknown as AsyncIterable<Uint8Array>,
-        };
-        
-        const {cid} = await ipfs.add(fileForIPFS);
+            // FormData 객체를 생성합니다.
+            const formData = new FormData();
 
-        res.status(200).json({ success: true, CID: cid.toString() });
+            const blobData = bufferToBlob(data, image.mimetype);
+
+            // 파일 데이터를 FormData에 추가합니다.
+            formData.append('file', blobData);
+
+            // FormData를 사용하여 필요한 작업을 수행합니다.
+            // ...
+
+            // 파일 업로드 요청 등을 보냅니다.
+            // ...
+
+            const metadata = JSON.stringify({
+                name: image.originalFilename,
+            });
+            formData.append('pinataMetadata', metadata);
+            
+            const options = JSON.stringify({
+            cidVersion: 0,
+            })
+            formData.append('pinataOptions', options);
+
+            const resIPFS = await axios.post("https://api.pinata.cloud/pinning/pinFileToIPFS", formData, {
+                maxBodyLength: Infinity,
+                headers: {
+                'Content-Type': `multipart/form-data;`,
+                Authorization: IPFS_JWT
+                }
+            });
+                
+            console.log('resIPFS')
+              console.log(resIPFS.data.IpfsHash)
+            res.status(200).json({ success: true, CID: resIPFS.data.IpfsHash });
+              
+        });
     } catch (e) {
         console.log('err')
         console.error(e)

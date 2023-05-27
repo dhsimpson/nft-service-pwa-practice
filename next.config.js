@@ -8,6 +8,8 @@ const withPWA = require('next-pwa')({
         dest: 'public'
 });
 
+const PROD_PINATA_JWT = `Bearer YOUR_PINATA_JWT`
+
 const nextConfig = {
   reactStrictMode: true,
   images: {
@@ -20,7 +22,7 @@ const nextConfig = {
       },
     ],
   },
-  output: 'export'
+//   output: 'export' // firebase deploy 를 위함
 }
 
 const envList = (phase) => {
@@ -58,19 +60,22 @@ module.exports = (phase) => {
         //TODO : prod 는 폴리곤넷 배포
         NEXT_PUBLIC_CONTRACT_ADDRESS: (() => {
             //스마트 컨트랙트의 주소를 각 환경에 맞게 입력 한다.
-            return getEnvSpecificValue(isDev, isStaging, isProd, '0x5C41aEac153dF4E677cC56F6Ae18F4d70F432f7C', '0xa7c36691557704687c42540DC8675F8c91437535', '0xa7c36691557704687c42540DC8675F8c91437535', 'CONTRACT_ADDRESS');
+            return getEnvSpecificValue(isDev, isStaging, isProd, '0x5C41aEac153dF4E677cC56F6Ae18F4d70F432f7C', '0x32a460D5DcA268C30492E5cd16271373c07d1263', '0xa7c36691557704687c42540DC8675F8c91437535', 'CONTRACT_ADDRESS');
         })(),
         NEXT_PUBLIC_ENV: (() => {
             return getEnvSpecificValue(isDev, isStaging, isProd, 'dev', 'staging', 'prod', 'ENV');
         })(),
         NEXT_PUBLIC_IPFS_HOST: (() => {
-            return getEnvSpecificValue(isDev, isStaging, isProd, '127.0.0.1', '127.0.0.1', '127.0.0.1', 'IPFS_HOST');
+            return getEnvSpecificValue(isDev, isStaging, isProd, '127.0.0.1', 'api.pinata.cloud', 'api.pinata.cloud', 'IPFS_HOST');
         })(),
         NEXT_PUBLIC_IPFS_PORT: (() => {
-            return getEnvSpecificValue(isDev, isStaging, isProd, '5002', '5002', '5002', 'IPFS_PORT');
+            return getEnvSpecificValue(isDev, isStaging, isProd, '5002', '80', '80', 'IPFS_PORT');
         })(),
         NEXT_PUBLIC_IPFS_PROTOCOL: (() => {
             return getEnvSpecificValue(isDev, isStaging, isProd, 'http', 'https', 'https', 'IPFS_PROTOCOL');
+        })(),
+        NEXT_PUBLIC_IPFS_JWT: (() => {
+            return getEnvSpecificValue(isDev, isStaging, isProd, '', PROD_PINATA_JWT, PROD_PINATA_JWT, 'IPFS_JWT');
         })(),
     }
     
@@ -81,6 +86,7 @@ module.exports = (phase) => {
             NEXT_PUBLIC_IPFS_HOST: env.NEXT_PUBLIC_IPFS_HOST,
             NEXT_PUBLIC_IPFS_PORT: env.NEXT_PUBLIC_IPFS_PORT,
             NEXT_PUBLIC_IPFS_PROTOCOL: env.NEXT_PUBLIC_IPFS_PROTOCOL,
+            NEXT_PUBLIC_IPFS_JWT: env.NEXT_PUBLIC_IPFS_JWT
         },
         ...nextConfig
     });

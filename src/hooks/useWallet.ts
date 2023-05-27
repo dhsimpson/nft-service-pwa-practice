@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Web3 from 'web3';
 import { Contract } from 'web3-eth-contract';
-import getTestAbi from '@/abi/TestNFT.json';
+import getTestAbi from '@/abi/TestNFT.json'; // stage 는 @/abi/STAGE-NFT.json, next-config 로 env 별로 설정 하도록 하자
 import { contractAddress, envName } from '@/consts/env';
 
 

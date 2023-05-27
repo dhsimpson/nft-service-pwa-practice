@@ -20,7 +20,7 @@ export default function usePopupMetamask({web3, account}: {web3: Web3 | null, ac
                     {
                     from: account,
                     to: '0xFBE2e8B6074e4a984abFfAa89a8e0eEb82fd487C',
-                    value: '0x' + weiAmount.toString(16),
+                    value: '0x' + weiAmount.toString(),
                     },
                 ],
                 });
